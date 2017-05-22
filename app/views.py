@@ -1,21 +1,17 @@
-from flask import render_template
+from flask import render_template, Response, request
 from app import app
+from azure import ServiceImport
+import json
 
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'nickname': 'Miguel'}  # fake user
-    posts = [  # fake array of posts
-        {
-            'author': {'nickname': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'nickname': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template("index.html",
-                           title='Home',
-                           user=user,
-                           posts=posts)
+    return render_template("index.html")
+
+@app.route('/ajax', methods = ["POST"])
+def ajax():
+    serviceName = request.form['request']
+    azureService = ServiceImport()
+    jsonGridData = azureService.getJsonGridData(serviceName.title())
+
+    return Response(json.dumps(jsonGridData), mimetype='application/json')
