@@ -1,20 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<p>
-    <div class="btn-group">
-      <button type="button" class="btn btn-default">Choose table</button>
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-      <ul class="dropdown-menu">
-            <li><a href="#">Clusters</a></li>
-            <li class="divider"></li>
-            <li><a href="#">output1</a></li>
-            <li class="divider"></li>
-            <li><a href="#">output2</a></li>
-            <li class="divider"></li>
-      </ul>
-    </div><!-- /btn-group -->
-</p>
-
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-primary">
@@ -31,44 +16,19 @@
 
     <script type="text/javascript">
         jQuery(function ($) {
-            var spinner = new Spinner({color: 'white'}).spin(),
-                performance = [12, 43, 34, 22, 12, 33, 4, 17, 22, 34, 54, 67],
-                visits = [123, 323, 443, 32];
-            initGrid();
+            var spinner = new Spinner({color: 'white'}).spin();
             $('.panel-body').append(spinner.el);
 
-            $("#shieldui-chart1").shieldChart({
-                theme: "dark",
+            initGrid('Clusters');
 
-                primaryHeader: {
-                    text: "Visitors"
-                },
-                exportOptions: {
-                    image: false,
-                    print: false
-                },
-                dataSeries: [{
-                    seriesType: "area",
-                    collectionAlias: "Q Data",
-                    data: performance
-                }]
-            });
-
-            $("#shieldui-chart2").shieldChart({
-                theme: "dark",
-                primaryHeader: {
-                    text: "Traffic Per week"
-                },
-                exportOptions: {
-                    image: false,
-                    print: false
-                },
-                dataSeries: [{
-                    seriesType: "pie",
-                    collectionAlias: "traffic",
-                    data: visits
-                }]
-            });
+            $('.nav.navbar-nav.side-nav li a').on('click', function(e){
+                e.preventDefault();
+                $('#shieldui-grid1').empty()
+                $('.panel-title').empty().text($(this).text());
+                initGrid($(this).attr('href'));
+                $('.nav.navbar-nav.side-nav li a').removeClass("selected");
+                $(this).addClass('selected');
+            })
 
             function fillGrid(titles, content){
                     $("#shieldui-grid1").shieldGrid({
@@ -126,12 +86,14 @@
                 });
             }
 
-            function initGrid(){
+            function initGrid(serviceName){
+                var spinner = new Spinner({color: 'white'}).spin();
+                $('.panel-body').append(spinner.el);
                 $.ajax({
                     type: "POST",
                     url: "/ajax",
                     dataType: "json",
-                    data: {'request':'clusters'},
+                    data: {'request':serviceName},
                     success: function(response) {
                         var titlesIndex = 0,
                             contentIndex = 1,
@@ -143,6 +105,9 @@
                             content.push(data[contentIndex][i][0]);
                         }
                         fillGrid(data[titlesIndex], content)
+                    },
+                    error: function (response) {
+                        console.log(response);
                     },
                     complete:function () {
                         $('.spinner').remove();

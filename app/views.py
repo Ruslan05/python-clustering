@@ -12,6 +12,6 @@ def index():
 def ajax():
     serviceName = request.form['request']
     azureService = ServiceImport()
-    jsonGridData = azureService.getJsonGridData(serviceName.title())
+    jsonGridData = azureService.getJsonGridData(serviceName)
 
     return Response(json.dumps(jsonGridData), mimetype='application/json')
