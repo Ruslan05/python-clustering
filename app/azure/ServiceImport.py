@@ -38,9 +38,9 @@ class ServiceImport:
 
     def getJsonGridData(self, serviceName):
         self.importData()
-        data = self.data['Results'][serviceName]['value']
-        columns = data['ColumnNames']
-        values = data['Values']
+        _importedData = self.data['Results'][serviceName]['value']
+        columns = _importedData['ColumnNames']
+        values = _importedData['Values']
         _columnsToTable = []
         _columnValuesToTable = []
         _rowValues = []
@@ -51,7 +51,7 @@ class ServiceImport:
         for j, value in enumerate(values):
             for i, item in enumerate(value):
                 if(len(_rowValues)):
-                    _rowValues[0] = dict(dict({columns[i]: value[i]}).items() + rowValues[0].items())
+                    _rowValues[0] = dict(dict({columns[i]: value[i]}).items() + _rowValues[0].items())
                 else:
                     _rowValues.append(dict({columns[i]: value[i]}))
             _columnValuesToTable.append(_rowValues)
