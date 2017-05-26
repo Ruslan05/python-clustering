@@ -19,11 +19,11 @@ class ServiceImport:
         }
 
     def importData(self):
-        body = str.encode(json.dumps(self.__api_data))
-        headers = {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + self.__api_key)}
-        req = urllib2.Request(self.__api_url, body, headers)
+        _body = str.encode(json.dumps(self.__api_data))
+        _headers = {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + self.__api_key)}
+        _req = urllib2.Request(self.__api_url, _body, _headers)
         try:
-            response = urllib2.urlopen(req)
+            response = urllib2.urlopen(_req)
             # If you are using Python 3+, replace urllib2 with urllib.request in the above code:
             # req = urllib.request.Request(url, body, headers)
             # response = urllib.request.urlopen(req)
@@ -38,24 +38,24 @@ class ServiceImport:
 
     def getJsonGridData(self, serviceName):
         self.importData()
-        clusters = self.data['Results'][serviceName]['value']
-        columns = clusters['ColumnNames']
-        values = clusters['Values']
-        columnsToTable = []
-        columnValuesToTable = []
-        rowValues = []
+        data = self.data['Results'][serviceName]['value']
+        columns = data['ColumnNames']
+        values = data['Values']
+        _columnsToTable = []
+        _columnValuesToTable = []
+        _rowValues = []
 
         for column in (columns):
-            columnsToTable.append({'field': column, 'title':column})
+            _columnsToTable.append({'field': column, 'title':column})
 
         for j, value in enumerate(values):
             for i, item in enumerate(value):
-                if(len(rowValues)):
-                    rowValues[0] = dict(dict({columns[i]: value[i]}).items() + rowValues[0].items())
+                if(len(_rowValues)):
+                    _rowValues[0] = dict(dict({columns[i]: value[i]}).items() + rowValues[0].items())
                 else:
-                    rowValues.append(dict({columns[i]: value[i]}))
-            columnValuesToTable.append(rowValues)
-            rowValues = []
+                    _rowValues.append(dict({columns[i]: value[i]}))
+            _columnValuesToTable.append(_rowValues)
+            _rowValues = []
 
-        response = [columnsToTable, columnValuesToTable]
+        response = [_columnsToTable, _columnValuesToTable]
         return json.dumps(response)

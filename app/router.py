@@ -10,8 +10,8 @@ def index():
 
 @app.route('/ajax', methods = ["POST"])
 def ajax():
-    serviceName = request.form['request']
-    azureService = ServiceImport()
-    jsonGridData = azureService.getJsonGridData(serviceName)
+    _serviceName = request.form['request']
+    _azureService = ServiceImport()
+    _jsonGridData = _azureService.getJsonGridData(_serviceName)
 
-    return Response(json.dumps(jsonGridData), mimetype='application/json')
+    return Response(json.dumps(_jsonGridData), mimetype='application/json')
