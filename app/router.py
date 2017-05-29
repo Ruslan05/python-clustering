@@ -8,10 +8,18 @@ import json
 def index():
     return render_template("index.html")
 
-@app.route('/ajax', methods = ["POST"])
-def ajax():
+@app.route('/edit')
+def edit():
+    return render_template("edit.html")
+
+@app.route('/getGridData', methods = ["POST"])
+def getGridData():
     _serviceName = request.form['request']
     _azureService = ServiceImport()
     _jsonGridData = _azureService.getJsonGridData(_serviceName)
 
     return Response(json.dumps(_jsonGridData), mimetype='application/json')
+
+@app.route('/update', methods = ["POST"])
+def update():
+    formData = request.form['request']

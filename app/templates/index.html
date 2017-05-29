@@ -7,7 +7,6 @@
                 <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Clusters </h3>
             </div>
             <div class="panel-body">
-
                 <div id="shieldui-grid1"></div>
             </div>
         </div>
@@ -91,7 +90,7 @@
                 $('.panel-body').append(spinner.el);
                 $.ajax({
                     type: "POST",
-                    url: "/ajax",
+                    url: "/getGridData",
                     dataType: "json",
                     data: {'request':serviceName},
                     success: function(response) {
