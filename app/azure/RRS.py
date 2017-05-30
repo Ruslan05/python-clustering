@@ -2,7 +2,7 @@ import urllib2
 # If you are using Python 3+, import urllib instead of urllib2
 import json
 
-class ServiceImport:
+class RRS:
 
     def __init__(self):
         self.data = []

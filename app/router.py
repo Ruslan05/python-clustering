@@ -1,6 +1,6 @@
 from flask import render_template, Response, request
 from app import app
-from azure import ServiceImport
+from azure import RRS
 import json
 
 @app.route('/')
@@ -15,7 +15,7 @@ def edit():
 @app.route('/getGridData', methods = ["POST"])
 def getGridData():
     _serviceName = request.form['request']
-    _azureService = ServiceImport()
+    _azureService = RRS()
     _jsonGridData = _azureService.getJsonGridData(_serviceName)
 
     return Response(json.dumps(_jsonGridData), mimetype='application/json')

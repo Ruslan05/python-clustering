@@ -43,9 +43,9 @@ def processResults(result):
 
 
 def invokeBatchExecutionService():
-    storage_account_name = "adminsql"  # Replace this with your Azure Storage Account name
-    storage_account_key = "Dx9WbMIThAvXRQWap/aLnxT9LV5txxw=="  # Replace this with your Azure Storage Key
-    storage_container_name = ""  # Replace this with your Azure Storage Container name
+    storage_account_name = "szmedialead@gmail.com"  # Replace this with your Azure Storage Account name
+    storage_account_key = "Zk3Ahs9ouVeiRC40IeVyoykPuriApQU5b5j4o0puzoLLFMSa/tB9y04BFBH1OAcaMYLKJ58yePJyAZSf/vEWEw=="  # Replace this with your Azure Storage Key
+    storage_container_name = "experimentoutput"  # Replace this with your Azure Storage Container name
     connection_string = "DefaultEndpointsProtocol=https;AccountName=" + storage_account_name + ";AccountKey=" + storage_account_key
     api_key = "Zk3Ahs9ouVeiRC40IeVyoykPuriApQU5b5j4o0puzoLLFMSa/tB9y04BFBH1OAcaMYLKJ58yePJyAZSf/vEWEw=="  # Replace this with the API key for the web service
     url = "https://ussouthcentral.services.azureml.net/workspaces/ba24eec468a54ed89dc064c2b4345689/services/c69bf9b2a983465f9be98ed2d9bad454/jobs"
@@ -54,7 +54,7 @@ def invokeBatchExecutionService():
 
         "Outputs": {
 
-            "RegressionParametrs": {"ConnectionString": connection_string,
+            "RegressionParameters": {"ConnectionString": connection_string,
                                     "RelativeLocation": "/" + storage_container_name + "/RegressionParametrsresults.ilearner"},
 
             "ResultOfRegression": {"ConnectionString": connection_string,
@@ -63,7 +63,7 @@ def invokeBatchExecutionService():
             "Relevant": {"ConnectionString": connection_string,
                          "RelativeLocation": "/" + storage_container_name + "/Relevantresults.csv"},
 
-            "ClustersParametrs": {"ConnectionString": connection_string,
+            "ClustersParameters": {"ConnectionString": connection_string,
                                   "RelativeLocation": "/" + storage_container_name + "/ClustersParametrsresults.csv"},
 
             "Clusters": {"ConnectionString": connection_string,
