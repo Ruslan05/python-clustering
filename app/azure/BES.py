@@ -17,7 +17,7 @@ from azure.storage.blob import *
 
 
 def printHttpError(httpError):
-    print("The request failed with status code: " + str(httpError.code))
+    print("The request failed with status code!!!: " + str(httpError.code))
 
     # Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
     print(httpError.info())
@@ -41,11 +41,10 @@ def processResults(result):
 
     return
 
-
 def invokeBatchExecutionService():
     storage_account_name = "szmedialead@gmail.com"  # Replace this with your Azure Storage Account name
     storage_account_key = "Zk3Ahs9ouVeiRC40IeVyoykPuriApQU5b5j4o0puzoLLFMSa/tB9y04BFBH1OAcaMYLKJ58yePJyAZSf/vEWEw=="  # Replace this with your Azure Storage Key
-    storage_container_name = "experimentoutput"  # Replace this with your Azure Storage Container name
+    storage_container_name = ""  # Replace this with your Azure Storage Container name
     connection_string = "DefaultEndpointsProtocol=https;AccountName=" + storage_account_name + ";AccountKey=" + storage_account_key
     api_key = "Zk3Ahs9ouVeiRC40IeVyoykPuriApQU5b5j4o0puzoLLFMSa/tB9y04BFBH1OAcaMYLKJ58yePJyAZSf/vEWEw=="  # Replace this with the API key for the web service
     url = "https://ussouthcentral.services.azureml.net/workspaces/ba24eec468a54ed89dc064c2b4345689/services/c69bf9b2a983465f9be98ed2d9bad454/jobs"
