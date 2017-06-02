@@ -2,8 +2,8 @@ import urllib2
 # If you are using Python 3+, import urllib instead of urllib2
 import json
 
-class RRS:
 
+class RRS:
     def __init__(self):
         self.data = []
         self.__api_key = 'Zk3Ahs9ouVeiRC40IeVyoykPuriApQU5b5j4o0puzoLLFMSa/tB9y04BFBH1OAcaMYLKJ58yePJyAZSf/vEWEw=='
@@ -18,7 +18,7 @@ class RRS:
             }
         }
 
-    def importData(self):
+    def import_data(self):
         _body = str.encode(json.dumps(self.__api_data))
         _headers = {'Content-Type': 'application/json', 'Authorization': ('Bearer ' + self.__api_key)}
         _req = urllib2.Request(self.__api_url, _body, _headers)
@@ -35,27 +35,40 @@ class RRS:
             print(error.info())
             print(json.loads(error.read()))
 
+    def get_json_grid_data(self, service_name):
+        self.import_data()
+        _imported_data = self.data['Results'][service_name]['value']
+        _modified_imported_data = self.modify_imported_data_structure(_imported_data)
+        if service_name == 'Clusters':
+            self.cut_external_columns_for_clusters(_modified_imported_data[0])
+        response = [_modified_imported_data[0], _modified_imported_data[1]]
+        return json.dumps(response)
 
-    def getJsonGridData(self, serviceName):
-        self.importData()
-        _importedData = self.data['Results'][serviceName]['value']
-        columns = _importedData['ColumnNames']
-        values = _importedData['Values']
+    def modify_imported_data_structure(self, _imported_data):
+        _columns = _imported_data['ColumnNames']
+        _values = _imported_data['Values']
         _columnsToTable = []
         _columnValuesToTable = []
-        _rowValues = []
-
-        for column in (columns):
-            _columnsToTable.append({'field': column, 'title':column})
-
-        for j, value in enumerate(values):
+        _row_values = []
+        for i in xrange(len(_columns)):
+            _columns[i] = _columns[i].replace('.', '-')
+        for column in _columns:
+            _columnsToTable.append(
+                {
+                    'field': column,
+                    'title': column
+                }
+            )
+        for j, value in enumerate(_values):
             for i, item in enumerate(value):
-                if(len(_rowValues)):
-                    _rowValues[0] = dict(dict({columns[i]: value[i]}).items() + _rowValues[0].items())
+                if len(_row_values):
+                    _row_values[0] = dict(dict({_columns[i]: value[i]}).items() + _row_values[0].items())
                 else:
-                    _rowValues.append(dict({columns[i]: value[i]}))
-            _columnValuesToTable.append(_rowValues)
-            _rowValues = []
+                    _row_values.append(dict({_columns[i]: value[i]}))
+            _columnValuesToTable.append(_row_values)
+            _row_values = []
+        return (_columnsToTable, _columnValuesToTable)
 
-        response = [_columnsToTable, _columnValuesToTable]
-        return json.dumps(response)
+    @staticmethod
+    def cut_external_columns_for_clusters(clusters_columns):
+        del(clusters_columns[len(clusters_columns)-8:])

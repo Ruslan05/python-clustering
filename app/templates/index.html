@@ -104,6 +104,8 @@
                             content.push(data[contentIndex][i][0]);
                         }
                         fillGrid(data[titlesIndex], content)
+                        $('.panel-body').html($('.panel-body').html().split("Demo Version").join(""));
+                        $('.panel-body').html($('.panel-body').html().split("by ShieldUI").join(""));
                     },
                     error: function (response) {
                         console.log(response);
